@@ -1,0 +1,44 @@
+.ContactPane {
+  height:100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: white;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  /* overflow: auto; */
+  /* grid-template-rows: 15% 80% 5%; */
+}
+.ContactPane>.aside-for-list-of-users {
+  height:100%;
+  margin:0;
+  padding:0;
+ background-color: lightseagreen;
+ overflow: auto;
+ display: flex;
+flex-direction: column;
+box-sizing: border-box;
+grid-column: span 2;
+}
+.ContactPane>.main-for-chat-ing-area {
+  height:100%;
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  grid-column: span 4;
+  overflow: auto;
+}
+@media screen and (min-width:961px) {
+  .ContactPane > .aside-for-list-of-users{
+    display:none;
+  }
+  .ContactPane > .main-for-chat-ing-area {
+    width:100%;
+    grid-column: span 6;
+  }
+  .ContactPane > footer {
+    grid-column: span 6;
+    font-size: xx-small;
+  }
+}

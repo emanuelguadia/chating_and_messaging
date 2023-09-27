@@ -1,0 +1,19 @@
+.BrandSelf {
+}
+ .class-link {
+   font-size: xx-small;
+   font-weight: bolder;
+   background-color: aliceblue;
+ }
+@media screen and (max-width: 576px) {
+  .BrandSelf>.navbar>.container-fluid>.collapse>.navbar-nav>.nav-item>.nav-link{
+    font-size: xx-small;
+    font-weight: bolder;
+    background-color: aliceblue;
+  }
+}
+@media (min-width:960px){
+ .BrandSelf{
+  display:none;
+ }
+}

@@ -1,0 +1,94 @@
+.ListOfUsers {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.ListOfUsers>.usersOnlineContainer {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow:auto;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.ListOfUsers > .usersOnlineContainer > .on-line-users-header {
+ background-color: aliceblue;
+}
+.ListOfUsers>.usersOnlineContainer>.listOfUsers-map-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.ListOfUsers>.usersOnlineContainer>.listOfUsers-map-container>.onLine-user-card{
+
+}
+.ListOfUsers> .usersOnlineContainer> .listOfUsers-map-container> .onLine-user-card> .onLine-user-row{
+}
+.ListOfUsers > .usersOnlineContainer >.listOfUsers-map-container> .onLine-user-card> .onLine-user-row> .col-md-4 {
+  font-size: xx-small;
+} 
+.ListOfUsers>.usersOnlineContainer>.listOfUsers-map-container>.onLine-user-card>.onLine-user-row>.col-md-8{
+}
+.ListOfUsers>.usersOnlineContainer>.listOfUsers-map-container>.onLine-user-card>.onLine-user-row>.col-md-8>.card-body{
+background-color: grey;
+}
+
+.ListOfUsers>.usersOnlineContainer>.listOfUsers-map-container>.onLine-user-card>.onLine-user-row>.col-md-8>.card-body>.card-text>.userNameBtn  {
+  box-shadow: 10;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.ListOfUsers>.usersOnlineContainer>.listOfUsers-map-container>.onLine-user-card>.onLine-user-row>.col-md-8>.card-body>.card-text>.userNameBtn> label {
+  font-size: xx-small;
+}
+.ListOfUsers>.usersOfflineContainer {
+  padding:0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 0cm;
+}
+.ListOfUsers>.usersOfflineContainer>.off-line-users-header {
+  background-color: aliceblue;
+}
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container>.off-Line-user-card {
+  background-color: lightgoldenrodyellow;
+}
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container>.off-Line-user-card>.off-line-user-row {
+}
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container>.off-Line-user-card>.off-line-user-row>.col-md-4 {
+  
+}
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container>.off-Line-user-card>.off-line-user-row>.col-md-8 {}
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container>.off-Line-user-card>.col-md-8>.card-body {
+  background-color: white;
+}
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container>.off-Line-user-card>.col-md-8>.card-body {}
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container>.off-Line-user-card>.col-md-8>.card-body>.card-text>.userNameBtn{
+  border:0cm;
+  box-sizing: border-box;
+  display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.ListOfUsers>.usersOfflineContainer>.off-listOfUsers-map-container>.off-Line-user-card> .off-line-user-row >.col-md-8>.card-body>.card-text>.userNameBtn> label {
+  font-size: xx-small;
+}
+
+

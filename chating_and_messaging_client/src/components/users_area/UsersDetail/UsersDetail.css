@@ -1,0 +1,24 @@
+.UsersDetail {
+    display: flex;
+    background-color: brown;
+	
+}
+.UsersDetail>.card{
+}
+.UsersDetail>.card>.card-img-top {
+    height:250px;
+    width: 18rem; 
+}
+@media screen and (max-width:960px){
+.UsersDetail> .card> .card-header> .card-body> .card-title,
+    .card-text {
+        font-size: xx-small;
+    }  
+    .card>.card-header{
+        font-size: x-small;
+    }
+    .card>.card-body>.card-title{
+        font-size: x-small;
+    }        
+}
+

@@ -1,0 +1,68 @@
+.Layout {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 15% 80% 5%;
+}
+.Layout>header,
+footer {
+  grid-column: span 6;
+}
+
+main {
+  grid-column: span 5;
+}
+
+aside {
+  grid-column: 1;
+}
+
+@media screen and (max-width:960px) {
+  .Layout>aside {
+    display:none;
+  }
+  main {
+    grid-column: span 6;
+  }
+
+  footer {
+    font-size: xx-small;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Layout>* {
+  border: 1px solid black;
+}
