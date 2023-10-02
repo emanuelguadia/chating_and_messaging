@@ -12,6 +12,7 @@ function AddUser(): JSX.Element {
     handleSubmit,
   } = useForm<UserModel>();
   async function submit(user: UserModel): Promise<void> {
+    console.log("object");
     if (user.imageOfPost) {
       //@ts-ignore
       user.imageOfPost = user?.imageOfPost?.item(0) || undefined;
@@ -44,14 +45,14 @@ function AddUser(): JSX.Element {
               {...register("firstName", {
                 required: true,
                 maxLength: 50,
-                minLength: 1,
+                minLength: 5,
               })}
               aria-invalid={errors.firstName ? "true" : "false"}
               className="form-control"
               id="inputPassword"
             />
             {errors.firstName?.type === "required" && (
-              <p role="alert">First name is required</p>
+              <p role="alert">First name is required a</p>
             )}
           </div>
         </div>
@@ -63,7 +64,7 @@ function AddUser(): JSX.Element {
               {...register("lastName", {
                 required: true,
                 maxLength: 50,
-                minLength: 1,
+                minLength: 5,
               })}
               aria-invalid={errors.lastName ? "true" : "false"}
               className="form-control"
@@ -78,11 +79,11 @@ function AddUser(): JSX.Element {
           <label className="col-sm-2 col-form-label">Birth Date</label>
           <div className="col-sm-10">
             <input
-              type="text"
+              type="date"
               {...register("birthDate", {
                 required: true,
                 maxLength: 50,
-                minLength: 1,
+                minLength: 8,
               })}
               aria-invalid={errors.birthDate ? "true" : "false"}
               className="form-control"
@@ -98,10 +99,10 @@ function AddUser(): JSX.Element {
           <div className="col-sm-10">
             <input
               type="text"
-              {...register("titleOfPost", {
+              {...register("titleOfPost",{
                 required: true,
                 maxLength: 50,
-                minLength: 1,
+                minLength: 5,
               })}
               className="form-control"
               id="inputPassword"
@@ -113,10 +114,10 @@ function AddUser(): JSX.Element {
           <div className="col-sm-10">
             <input
               type="text"
-              {...register("textOfPost", {
+              {...register("textOfPost",{
                 required: true,
                 maxLength: 50,
-                minLength: 1,
+                minLength: 5,
               })}
               className="form-control"
               id="inputPassword"
@@ -143,7 +144,7 @@ function AddUser(): JSX.Element {
           <div className="col-sm-10">
             <input
               type="password"
-              {...register("password", {
+              {...register("password",{
                 required: true,
                 maxLength: 20,
                 minLength: 5,

@@ -10,8 +10,8 @@ export const authenticateTokenBody = (
     accessValidToken: any;
     refreshToken: any;
   };
-  if (!token) {
-    return res.status(403).json("null");
+  if(!token) {
+    return res.status(401).json("null");
   }
   const { accessValidToken, refreshToken } = token;
   const secret = process.env.ACCESS_TOKEN_SECRET;

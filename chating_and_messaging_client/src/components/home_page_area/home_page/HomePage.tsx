@@ -10,9 +10,9 @@ function HomePage(): JSX.Element {
     <SocketContextProvider
       value={{ socketState: socketState, SocketDispatch: SocketDispatch }}
     >
-      <div className="HomePage container-fluid h-100 w-100 p-0 m-0">
-        <Routing />
-      </div>
+        <div className="HomePage container-fluid h-100 w-100 p-0 m-0">
+          <Routing />
+        </div>
     </SocketContextProvider>
   );
 }

@@ -1,17 +1,18 @@
 import {
   useState,
   createContext,
-  useLayoutEffect,
   useCallback,
   useContext,
   Dispatch,
+  useEffect,
 } from "react";
+import jwtDecode from "jwt-decode";
 import { AxiosResponse } from "axios";
 import apiClient from "./../auth_provider_context/authProvider";
 import { useNavigate } from "react-router-dom";
 import CredentialModel from "../../../models/login_model/logModel";
 import axiosClient from "../../../services/axios_client_service/axios-client-service";
-import { useAppDispatch } from "../../../hooks/redux_hooks/redux-hooks";
+import config from "../../../services/config_url/config";
 export const AuthContext = createContext<{
   state: CredentialModel;
   dispatch: Dispatch<CredentialModel>;
@@ -44,7 +45,6 @@ const AuthHelper = function ({
   setAuthState: (newState: CredentialModel) => void;
 }) {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const useAuthCont = useAuthContext();
   const logout = useCallback(() => {
     setAuthState({
@@ -53,56 +53,46 @@ const AuthHelper = function ({
     });
     navigate("/");
   }, [authState]);
-  useLayoutEffect(() => {
+  useEffect(() => {
+    //Request interceptor
+    //@ts-ignore
+    const requestInterceptor = axiosClient.interceptors?.request?.use(
+      (request: any) => {
+        return request;
+      },
+      (error: Error) => error
+    );
+    //Response interceptor
     const responseInterceptor = axiosClient.interceptors?.response?.use(
       (res: any) => res,
-      (error: Error & { response: AxiosResponse }) => {
+      async (error: Error & { response: AxiosResponse }) => {
         if (error?.response?.status === 401) {
           if (useAuthCont?.token) {
             const token = useAuthCont.token;
             if (token) {
-              //  const response = axiosClient.post("http://localhost:4000/token", {
-              //    token,
-              //  });
-              //  const responseToken = response?.data;
-              //  const { accessValidToken, refreshToken } = responseToken;
-              //  const finalResult: any = jwtDecode(accessValidToken);
-              //  const { loginModel, user } = finalResult;
-              //  const signInUser: UserModel = user as UserModel;
-              //  const credentialObject: CredentialModel =
-              //    loginModel as CredentialModel;
-              //  credentialObject.token = responseToken;
-              //  if (credentialObject?.isLoggedIn) {
-              //    //Adding the final result of logged in object  from server to context.
-              //    useAuthCont.dispatch(credentialObject);
-              //    //?????dispatch(chooseUserReducer({activeChooseUser:signInUser,status:true}));
-              //  }
-            } else {
-              //logout();
+              const response = await axiosClient.post(
+                `${config.tokensUrl}/tokens`,
+                token
+              );
+              const responseToken = response?.data;
+              const { accessValidToken } = responseToken;
+              const finalResult: any = jwtDecode(accessValidToken);
+              const { loginModel } = finalResult as any;
+              const credentialObject: CredentialModel =
+                loginModel as CredentialModel;
+              credentialObject.token = responseToken;
+              if (credentialObject?.isLoggedIn) {
+                //Adding the final result of logged in object  from server to context.
+                useAuthCont.dispatch(credentialObject);
+              }
             }
+          } else {
+            logout();
           }
         } else {
-          //logout();
+          logout();
         }
       }
-    );
-    // request interceptor
-    //@ts-ignore
-    const requestInterceptor = axiosClient.interceptors?.request?.use(
-      (request: any) => {
-        if (useAuthCont?.token) {
-          // const token = useAuthCont?.token;
-          // console.log(
-          //   "const requestInterceptor = axiosClient.interceptors?.request?.use.....>"
-          // );
-          // console.log(useAuthCont.token);
-          // request.headers.Authorization = "Bearer " + token;
-          // console.log("request.headers.Authorization = Bearer  + token;");
-          // console.log(request.headers.Authorization);
-        }
-        return request;
-      },
-      (error: Error) => error
     );
     return () => {
       //@ts-ignore

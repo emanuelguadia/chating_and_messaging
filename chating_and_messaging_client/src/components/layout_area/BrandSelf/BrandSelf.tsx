@@ -15,9 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { authService } from "../../../services/authentication_service/auth-service";
 import { Link } from "react-router-dom";
-import {
-  useAppDispatch,
-} from "../../../hooks/redux_hooks/redux-hooks";
+import { useAppDispatch } from "../../../hooks/redux_hooks/redux-hooks";
 import UserModel from "../../../models/user_model/user-model";
 import {
   setAllUserAction,
@@ -101,16 +99,22 @@ function BrandSelf(): JSX.Element {
                 </Link>
               </NavItem>
               <NavItem>
-                <Link className="class-link" to="/contact-pane">Back</Link>
+                <Link className="class-link" to="/contact-pane">
+                  Back
+                </Link>
               </NavItem>
               <NavItem>
-            <Link className="class-link" to="/update-user">Update</Link>
-          </NavItem>
-          <NavItem>
-            <Link  className="class-link" to="/delete-user">Delete</Link>
-          </NavItem>
+                <Link className="class-link" to="/update-user">
+                  Update
+                </Link>
+              </NavItem>
               <NavItem>
-                <Link className="class-link" onClick={LogOut} to={""}>
+                <Link className="class-link" to="/delete-user">
+                  Delete
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link className="class-link" onClick={LogOut} to="">
                   Log out
                 </Link>
               </NavItem>
