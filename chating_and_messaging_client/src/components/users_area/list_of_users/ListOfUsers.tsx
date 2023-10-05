@@ -84,7 +84,7 @@ function ListOfUsers(props: ListOfUsersProps): JSX.Element {
                     key={user?._id}
                   >
                     <div className="onLine-user-row row g-0 h-100 w-100 p-0 m-0">
-                      <div className="col-md-4 w-25 h-100 p-0 m-0">
+                      <div className="col-md-4 w-50 h-100 p-0 m-0 b-0">
                         <Button className="userNameBtn  h-100 w-100 p-0 m-0">
                           <img
                             className="img-fluid rounded-start h-100 w-100 p-0 m-0"
@@ -93,7 +93,7 @@ function ListOfUsers(props: ListOfUsersProps): JSX.Element {
                           />
                         </Button>
                       </div>
-                      <div className="col-md-8  w-75 h-100 p-0 m-0">
+                      <div className="col-md-8  w-50 h-100 p-0 m-0">
                         <div className="card-body h-100 w-100 p-0 m-0">
                           <div className="card-text container-fluid h-100 w-100 p-0 m-0">
                             <Button
@@ -150,7 +150,7 @@ function ListOfUsers(props: ListOfUsersProps): JSX.Element {
                     key={user?._id}
                   >
                     <div className="off-line-user-row row g-0 h-100 w-100 p-0 m-0">
-                      <div className="col-md-4 w-25 h-100 p-0 m-0">
+                      <div className="col-md-4 w-50 h-100 p-0 m-0">
                         <Button className="userNameBtn bg-info h-100 w-100 p-0 m-0">
                           <img
                             className="img-fluid rounded-start h-100 w-100 p-0 m-0"
@@ -159,7 +159,7 @@ function ListOfUsers(props: ListOfUsersProps): JSX.Element {
                           />
                         </Button>
                       </div>
-                      <div className="col-md-8  w-75 h-100 p-0 m-0">
+                      <div className="col-md-8  w-50 h-100 p-0 m-0">
                         <div className="card-body h-100 w-100 p-0 m-0">
                           <div className="card-text container-fluid h-100 w-100 p-0 m-0">
                             <Button

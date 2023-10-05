@@ -44,7 +44,7 @@ class UserService {
     user: UserModel
   ): Promise<UserModel> {
     const response = await axios.put(
-      `${config.userUrl}/users/put/${_id}`,
+      `${config.userUrl}/${_id}`,
       user,
       {
         headers: {
@@ -60,7 +60,7 @@ class UserService {
     user: UserModel
   ): Promise<UserModel> {
     const response = await axios.patch(
-      `${users_url}/users/patch/${_id}`,
+      `${config.userUrl}/${_id}`,
       user,
       {
         headers: {
@@ -71,10 +71,8 @@ class UserService {
     const getUser: UserModel = response.data;
     return getUser;
   }
-  public async deleteUser(_id: any): Promise<any> {
-    const response = await axios.delete(
-      `${config.userUrl}/users/delete/${_id}`
-    );
+  public async deleteUser(_id:string): Promise<any>{
+    const response = await axios.delete(`${config.userUrl}/${_id}`);
     const info = response.data;
     return info;
   }

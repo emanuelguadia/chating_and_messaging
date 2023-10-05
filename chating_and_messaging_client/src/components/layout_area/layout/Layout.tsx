@@ -8,7 +8,6 @@ import AuthProvider from "../../../app_state_area/context/auth_provider_context/
 import { BrowserRouter } from "react-router-dom";
 import {
   useAppDispatch,
-  useAppSelector,
 } from "../../../hooks/redux_hooks/redux-hooks";
 import { chooseUserReducer } from "../../../app_state_area/redux/users_state/choose-user-state";
 function Layout(): JSX.Element {

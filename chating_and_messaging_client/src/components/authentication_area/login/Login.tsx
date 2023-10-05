@@ -24,7 +24,8 @@ function Login(): JSX.Element {
   const dispatch = useAppDispatch();
   const { state } = useContext(AuthContext);
   const [error, setError] = useState<string>("");
-  async function submit(credential: CredentialModel): Promise<void> {
+  const [iserror, setIsError] = useState(false);
+  async function submit(credential: CredentialModel): Promise<void>{  
     try {
       credential.message = "Want to login to system";
       credential.isLoggedIn = false;
@@ -41,13 +42,15 @@ function Login(): JSX.Element {
         if(credentialObject?.isLoggedIn){
           //Adding the final result of logged in object  from server to context.
           useAuthCont.dispatch(credentialObject);
-          dispatch(profileUserReducer({ profileUser: signInUser }));
+          dispatch(profileUserReducer({profileUser: signInUser }));
         } else {
-          setError("logged in is not success try later again");
+          setIsError(true);
+          setError("Bad username and password combination");
         }
       }
     } catch (err: any) {
-      setError("Error server authenticated!!!");
+      setIsError(true)
+      setError("Bad username and password combination");
     }
   }
   return (
@@ -62,35 +65,36 @@ function Login(): JSX.Element {
               Email
             </Label>
             <input
-              aria-invalid={errors.email ? "true" : "false"}
               type="email"
-              {...register("email", { required: "Email Address is required" })}
-              className="form-control"
+              {...register("email", {required: "Email Address is required" })}
+              className="form-control w-100"
               id="inputPassword"
-              placeholder=" Email"
-            />
-            {errors.email && <p role="alert">{errors.email?.message}</p>}
+                placeholder=" Email"
+               aria-invalid={errors.email ? "true" : "false"}
+
+              />
+            {errors.email && <p role="alert">{errors.email?.message }</p>}
           </FormGroup>{" "}
           <FormGroup>
             <Label for="examplePassword" hidden>
               Password
             </Label>
             <input
-              type="password"
+              type="password w-100"
               {...register("password", {
                 required: true,
                 maxLength: 20,
-                minLength: 5,
+                minLength:5,
               })}
               className="form-control"
               id="inputPassword"
               placeholder="password"
             />
             {errors.password?.type === "required" && (
-              <p role="alert">Password is required</p>
+              <p role="alert">password is required minimum 5 characters</p>
             )}
           </FormGroup>{" "}
-          <Row>
+          <Row >
             <Col>
               <Button>Sign in</Button>
             </Col>
@@ -98,8 +102,14 @@ function Login(): JSX.Element {
               <Link to="/add-user">
                 <Button>Sign up</Button>
               </Link>
+              </Col>
+            </Row>
+              <Col>
+              {iserror ? (<>
+                <hr />
+                <p className="fw-bold bg-danger">{error}</p>
+              </>) : (<></>)}
             </Col>
-          </Row>
         </Form>
       )}
     </div>

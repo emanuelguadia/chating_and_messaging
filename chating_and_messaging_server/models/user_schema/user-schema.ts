@@ -34,7 +34,7 @@ const userSchema = new Schema<IUser>(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    birthDate: { type: String, required: true },
+    birthDate: { type:Date, required: true },
     titleOfPost: { type: String, required: true },
     textOfPost: { type: String, required: true },
     //email1

@@ -79,7 +79,8 @@ export class ServerSocket {
     //listening to  client  a specific to chat with another user
     //Start listening a chat with user
     socket.on(
-      "hello server i want chatting",(message: ChatModel, userId: string) => {
+      "hello server i want chatting",
+      (message: ChatModel, userId: string) => {
         this.currentChat = message;
         //Finding the specific receiver user to chat with her/him.
         //@ts-ignore
@@ -95,7 +96,7 @@ export class ServerSocket {
           if (socketToFound) {
             //Sending message  to specific receiver user  found
             socketToFound.emit(
-              "hello client starting cheating",
+              "hello client starting chatting",
               this?.currentChat
             );
           }
