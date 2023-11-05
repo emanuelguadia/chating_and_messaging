@@ -3,6 +3,11 @@ import usersBusinessLogic from "./../../business_logic/users_business_logic/user
 import { UserModel } from "../../models/user_schema/user-schema";
 import bcrypt from "bcrypt";
 import { authenticateTokenBody } from "../../middlewares/auth_token_model_body/auth_token_model_body";
+const emailValidator = require("deep-email-validator");
+//to Verify an Email Address use this function
+async function isEmailValid(email: any) {
+  return emailValidator.validate(email);
+}
 const router = express.Router();
 router.post(
   "/allUsers",
@@ -10,7 +15,7 @@ router.post(
   async (request: any, response: Response) => {
     try {
       const values = await usersBusinessLogic.getAllUsers();
-      if (values){
+      if (values) {
         return response.json(values);
       }
     } catch (err) {
@@ -38,37 +43,55 @@ router.post("/", async (request: Request, response: Response) => {
     if (!user) {
       return response.status(400).json("Bad request");
     }
-    //Check if user all ready exit in db.
-    let checkUser;
-    if (user?.userName) {
-      checkUser = await UserModel.findOne({
-        userName: user.userName,
-      });
-    }
-    //Means user all ready added so not added again  user with the same userName.
-    if (checkUser) {
-      return response.status(401).json("not operating this action");
-    }
-    //Means user not exist so it is possible save the user to db.
-    //But before saving the user checking the if  exist file
-    if (request?.files) {
-      const files = request.files;
-      user.imageOfPost = files?.imageOfPost;
-    }
-    //Hashing the Password.
-    const bcryptHashPassword = await bcrypt.hash(
-      user.password,
-      COUNT_BCRYPT_HASH
-    );
-    user.password = bcryptHashPassword;
-    const addedUser = await usersBusinessLogic.AddUser(user);
-    //Do this  user.password = "";  because do not want to response password to client from server.
-    if (addedUser) {
-      addedUser.password = "";
-      addedUser.isLoggedIn = false;
-      return response.json(addedUser);
+    //Email Validator by using this  command
+    const email = user.userName;
+    const { valid, reason, validators } = await isEmailValid(email);
+    const { regex, typo, disposable, mx, smtp } = validators;
+    if (
+      valid &&
+      regex.valid &&
+      typo.valid &&
+      disposable.valid &&
+      mx.valid &&
+      smtp.valid
+    ) {
+      //Check if user all ready exit in db.
+      let checkUser;
+      if (user?.userName) {
+        checkUser = await UserModel.findOne({
+          userName: user.userName,
+        });
+      }
+      //Means user all ready added so not added again  user with the same userName.
+      if (checkUser) {
+        return response.status(401).json("not operating this action");
+      }
+      //Means user not exist so it is possible save the user to db.
+      //But before saving the user checking the if  exist file
+      if (request?.files) {
+        const files = request.files;
+        user.imageOfPost = files?.imageOfPost;
+      }
+      //Hashing the Password.
+      const bcryptHashPassword = await bcrypt.hash(
+        user.password,
+        COUNT_BCRYPT_HASH
+      );
+      user.password = bcryptHashPassword;
+      const addedUser = await usersBusinessLogic.AddUser(user);
+      //Do this  user.password = "";  because do not want to response password to client from server.
+      if (addedUser) {
+        addedUser.password = "";
+        addedUser.isLoggedIn = false;
+        return response.json(addedUser);
+      } else {
+        return response.json("null");
+      }
     } else {
-      return response.json("null");
+      return response.json({
+        message: "Please provide a valid email address.",
+        reason: "valid status is false"
+      })
     }
   } catch (error: any) {
     return response.json(error.message);
@@ -98,7 +121,7 @@ router.patch("/:_id", async (request: Request, response: Response) => {
     const _id = request.params._id;
     const user = new UserModel(request.body);
     //Before updating the user checking the if  exist file
-    if (request?.files){
+    if (request?.files) {
       const files = request.files;
       user.imageOfPost = files?.imageOfPost as any;
     }

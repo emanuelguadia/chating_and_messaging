@@ -30,14 +30,14 @@ class UserService {
     const getUser: UserModel = response.data;
     return getUser;
   }
-  public async addUser(user: UserModel): Promise<UserModel> {
+  public async addUser(user: UserModel): Promise<any> {
     const response = await axios.post<UserModel>(`${config.userUrl}`, user, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    const getUser: UserModel = response.data;
-    return getUser;
+    const data = response.data;
+    return data;
   }
   public async fullUpdateUser(
     _id: string,

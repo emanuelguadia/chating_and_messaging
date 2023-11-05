@@ -4,7 +4,10 @@ import UserModel from "../../../models/user_model/user-model";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "reactstrap";
 import { userService } from "../../../services/users_service/users-service";
+import { useState } from "react";
 function AddUser(): JSX.Element {
+  const [message, setMessage] = useState<string>();
+  const [isMessage, setIsMessage] = useState<boolean>(false);
   const navigateTo = useNavigate();
   const {
     register,
@@ -12,19 +15,19 @@ function AddUser(): JSX.Element {
     handleSubmit,
   } = useForm<UserModel>();
   async function submit(user: UserModel): Promise<void> {
-    console.log("object");
     if (user.imageOfPost) {
       //@ts-ignore
       user.imageOfPost = user?.imageOfPost?.item(0) || undefined;
     }
     user.isLoggedIn = false;
     //@ts-ignore
-    let data: UserModel = (await userService.addUser(user)) as UserModel;
-    if (data?._id) {
+    let data = await userService.addUser(user);
+    if (data.message === "Please provide a valid email address.") {
+      setMessage(message);
+      setIsMessage(true);
+    } else {
       navigateTo("/");
     }
-    navigateTo("/");
-    // navigateTo("/add-user");
   }
   return (
     <div className="AddUser Box container-fluid h-100 w-100 p-0 m-0">
@@ -99,7 +102,7 @@ function AddUser(): JSX.Element {
           <div className="col-sm-10">
             <input
               type="text"
-              {...register("titleOfPost",{
+              {...register("titleOfPost", {
                 required: true,
                 maxLength: 50,
                 minLength: 5,
@@ -114,7 +117,7 @@ function AddUser(): JSX.Element {
           <div className="col-sm-10">
             <input
               type="text"
-              {...register("textOfPost",{
+              {...register("textOfPost", {
                 required: true,
                 maxLength: 50,
                 minLength: 5,
@@ -137,6 +140,7 @@ function AddUser(): JSX.Element {
               id="inputPassword"
             />
             {errors.userName && <p role="alert">{errors.userName?.message}</p>}
+            {isMessage ? <>{message}</> : <></>}
           </div>
         </div>
         <div className="mb-3 row">
@@ -144,7 +148,7 @@ function AddUser(): JSX.Element {
           <div className="col-sm-10">
             <input
               type="password"
-              {...register("password",{
+              {...register("password", {
                 required: true,
                 maxLength: 20,
                 minLength: 5,
