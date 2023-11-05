@@ -2,8 +2,9 @@
   overflow: auto;
   background-color: powderblue;
 }
-.Login> .container>.row> .col{
-    background-color: blue;
+
+.Login> .container>.row>.col{
+  background-color: orchid;
 }
 @media (min-width: 576px) and (max-width:720px) {
     .Login{

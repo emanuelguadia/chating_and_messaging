@@ -84,10 +84,12 @@ async function AddUser(user: any): Promise<any> {
   return await user.save();
 }
 async function updateUser(_id: string, user: any): Promise<any> {
-  return await UserModel.updateOne({ _id }, user);
+  console.log("profile?._id as string");
+  console.log(_id);
+ return await UserModel.updateOne({ _id },user);
 }
 async function deleteUser(_id: string): Promise<any> {
- console.log(" return await UserModel.deleteOne({ _id });");
+ return await UserModel.deleteOne({ _id });
 }
 export = {
   getAllUsers,

@@ -37,20 +37,12 @@ function ChatArea(props: ChatAreaProps): JSX.Element {
   const [profile, setProfile] = useState<UserModel>();
   //The user want to  choose and send message.
   const [userChoose, setUserChoose] = useState<UserModel>();
-  const [guestChats, setGuestChats] = useState<ChatModel[]>([]);
-  const [profilesChats, setProfilesChats] = useState<ChatModel[]>([]);
-  //All chats sending from profile to server.//Is it good do this???
-  const [chats, setChats] = useState<ChatModel>();
   //The value of textArea that taking when text area changed.
   const [value, setValue] = useState<string>();
   //All history of  messages that sending.
   const [historyMesSend, setHistoryMesSend] = useState<ChatModel[]>([]);
   //All history of  messages that receiving.
   const [historyMesReceive, setHistoryMesReceive] = useState<ChatModel[]>([]);
-  const [specificChatHistoreis, setSpecificChatHistoreis] =
-    useState<ChatModel[]>();
-  //all specific chat history db
-  const [chatHistoreisDb, setChatHistoreisDb] = useState<ChatModel[]>();
   // This function is triggered when textarea changes
   const textAreaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -78,7 +70,7 @@ function ChatArea(props: ChatAreaProps): JSX.Element {
       } as ChatModel;
       currentChat.sender.imageOfPost = undefined;
       currentChat.receiver.imageOfPost = undefined;
-      //hello server i want cheating
+      //hello server i want chatting
       socket?.emit("hello server i want chatting", currentChat);
       let sendHistory: ChatModel[] = [];
       sendHistory = [...historyMesSend];
@@ -136,8 +128,6 @@ function ChatArea(props: ChatAreaProps): JSX.Element {
             guestsHistory = [...(takeGuestChatsHistory as ChatModel[])];
             //All history of  messages that receiver taking from profile.
             setHistoryMesReceive(guestsHistory as ChatModel[]);
-            //........
-            setGuestChats(guestsHistory as ChatModel[]);
           }
         }
         if (allSpecificChats) {
@@ -160,42 +150,41 @@ function ChatArea(props: ChatAreaProps): JSX.Element {
             profilesHistory = [...(takeProfilesChatsHistory as ChatModel[])];
             //history of  messages profile taking from guest/receiver.
             setHistoryMesSend(profilesHistory);
-            //........
-            setProfilesChats(profilesHistory as ChatModel[]);
           }
         }
       }
     }
   };
-  const settingTextFromFriends = (messageHistory: ChatModel) => {
-    //const promise = new Promise((res, rej) => {
+  const settingTextFromFriends =async (messageHistory: ChatModel) => {
+    const promise = new Promise((res, rej) => {
     if (messageHistory) {
       let takeHistory: ChatModel[] = [];
-      takeHistory = [...historyMesReceive];
-      //takeHistory = historyMesReceive;
-      takeHistory.push(messageHistory);
+      //takeHistory = [...historyMesReceive];
+      takeHistory = historyMesReceive;
+      //takeHistory.push(messageHistory);
+       takeHistory.push(messageHistory);
       setHistoryMesReceive(takeHistory);
-      //res(takeHistory);
+     res(takeHistory);
     }
-    //rej(messageHistory);
-    // });
-    // const allReceiveMessages = (await promise) as ChatModel[];
-    // if (allReceiveMessages) {
-    //   setHistoryMesReceive(allReceiveMessages);
-    // } else {
-    //   console.log("no receive messages");
-    // }
+     rej(messageHistory);
+     });
+    const allReceiveMessages = (await promise) as ChatModel[];
+    if (allReceiveMessages) {
+      setHistoryMesReceive(allReceiveMessages);
+    } else {
+      console.log("no receive messages");
+    }
   };
   useEffect(() => {
     socket.connect();
     //start the listeners
     StartListeners();
-    if (profileUserState) {
+    if(profileUserState){
       setProfile(profileUserState);
     }
   }, []);
   useEffect(() => {
-    if (props.user) {
+    if (props.user){
       //chooseUserState
       isChooseUserChanged(chooseUserState);
     }
@@ -203,16 +192,16 @@ function ChatArea(props: ChatAreaProps): JSX.Element {
     setUserChoose(props.user);
     //From redux
     setUserChoose(chooseUserState);
-  }, [chooseUserState, props]);
+  }, [chooseUserState,props]);
   const StartListeners = () => {
     //User Connected event
-    socket.on("user_connected", (userConnected: UserModel) => {
+    socket.on("user_connected",(userConnected:UserModel) => {
       if (props.gettingUserConnected) {
         props.gettingUserConnected(userConnected);
       }
     });
-    //Hello client starting cheating.
-    socket.on("hello client starting cheating", (message: ChatModel) => {
+    //Hello client starting chatting.
+    socket.on("hello client starting chatting", (message: ChatModel) => {
       message.receiver.imageOfPost = undefined;
       message.receiver.imageOfPost = undefined;
       settingTextFromFriends(message);
@@ -265,13 +254,11 @@ function ChatArea(props: ChatAreaProps): JSX.Element {
               );
             })}
           </div>
-          <div className="friends-chat-area-container container-fluid  h-100 w-100 p-0 m-0 ">
+          <div className="friends-chat-area-container  container-fluid  h-100 w-100 p-0 m-0 ">
+             <div className="friends-chat-area-container container-fluid  h-100 w-100 p-0 m-0">
             {historyMesReceive?.map((chat: ChatModel, index) => {
               return (
-                <div
-                  key={index}
-                  className="card bg-light bg-gradient h-25 w-100 b-1"
-                >
+                <div key={index} className="card  bg-gradient h-25 w-100 b-1">
                   <div className="card-body historyMesReceive-card-body">
                     <h5 className="card-title">{chat.sender?.firstName}</h5>
                     <h6 className="card-subtitle mb-2 text-muted">
@@ -282,6 +269,7 @@ function ChatArea(props: ChatAreaProps): JSX.Element {
                 </div>
               );
             })}
+          </div>
           </div>
         </div>
         <div className="textarea-form-container container-fluid h-100 w-100 p-0 m-0">

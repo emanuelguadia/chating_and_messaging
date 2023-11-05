@@ -34,7 +34,6 @@ router.post("/", async (request: Request, response: Response) => {
     const COUNT_BCRYPT_HASH = 8;
     //@ts-ignore
     const user: UserModel = new UserModel(request.body);
-    console.log(user);
     //Means there no content in the body.
     if (!user) {
       return response.status(400).json("Bad request");
@@ -75,27 +74,42 @@ router.post("/", async (request: Request, response: Response) => {
     return response.json(error.message);
   }
 });
-router.put("/put/:_id", async (request: Request, response: Response) => {
+router.put("/:_id", async (request: Request, response: Response) => {
   try {
     const _id = request.params._id;
     const user = new UserModel(request.body);
+    //Before updating the user checking the if  exist file
+    if (request?.files) {
+      const files = request.files;
+      user.imageOfPost = files?.imageOfPost as any;
+    }
+    //Hashing the Password.
+    // const bcryptHashPassword = await bcrypt.hash(
+    //   user.password,
+    //   COUNT_BCRYPT_HASH
+    // );
+    // user.password = bcryptHashPassword;
     const updatedUser = await await usersBusinessLogic.updateUser(_id, user);
     response.json(updatedUser);
   } catch (err) {}
 });
-router.patch("/patch/:_id", async (request: Request, response: Response) => {
+router.patch("/:_id", async (request: Request, response: Response) => {
   try {
     const _id = request.params._id;
     const user = new UserModel(request.body);
+    //Before updating the user checking the if  exist file
+    if (request?.files){
+      const files = request.files;
+      user.imageOfPost = files?.imageOfPost as any;
+    }
     const updatedUser = await await usersBusinessLogic.updateUser(_id, user);
     response.json(updatedUser);
   } catch (err) {}
 });
-router.delete("/delete/:_id", async (request: Request, response: Response) => {
+router.delete("/:_id", async (request: Request, response: Response) => {
   try {
     const _id = request.params._id;
-    console.log("EM EM EM");
-    //await usersBusinessLogic.deleteUser(_id);
+    await usersBusinessLogic.deleteUser(_id);
     response.json(204);
   } catch (err) {}
 });
